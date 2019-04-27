@@ -28,3 +28,14 @@ uint16_t vdd_analogin_read_u16(void)
     while (((NRF_ADC->BUSY & ADC_BUSY_BUSY_Msk) >> ADC_BUSY_BUSY_Pos) == ADC_BUSY_BUSY_Busy) {};
     return (uint16_t)NRF_ADC->RESULT; // 10 bit
 }
+
+float batteryLevel(void)
+{
+    float value;
+    char buffer[5];
+    vdd_analogin_init();
+    
+    value = (float)vdd_analogin_read_u16();    
+    value = (value * 3.6) / 1024.0;
+    return value;
+}
